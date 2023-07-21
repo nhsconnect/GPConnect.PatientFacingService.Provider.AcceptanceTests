@@ -1,6 +1,6 @@
 <img src="logo.png" height=72>
 
-# GP Connect Provider Automated Test Suite
+# GP Connect (Patient Facing) Access Record
 
 This project provides a test suite for the [GP Connect (Patient Facing) Access Record ](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir#overview--overview) specification.
 
