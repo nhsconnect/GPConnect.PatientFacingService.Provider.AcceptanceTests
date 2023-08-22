@@ -196,7 +196,6 @@
     <Compile Include="Data\PDS.cs" />
     <Compile Include="Steps\StructuredCommonSteps.cs" />
     <Compile Include="Steps\StructuredDiarySteps.cs" />
-    <Compile Include="StructuredDiary.feature.cs" />
     <Compile Include="StructuredDocuments.feature.cs" />
     <Compile Include="Enum\GpConnectInteraction.cs" />
     <Compile Include="Extensions\BaseExtensions.cs" />
@@ -292,7 +291,6 @@
     <Compile Include="StructuredUncategorised.feature.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="StructuredDiary.feature" />
     <None Include="StructuredDocuments.feature" />
     <None Include="StructuredConsultations.feature" />
     <None Include="StructuredImmunizations.feature" />
