@@ -173,6 +173,16 @@
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetStructuredRecordParams.kMedication, tuples);
         }
 
+        [Given(@"I set a medications period parameter start date to ""([^ ""]*)"" and add the prescription type to repeat")]
+        public void GivenISetAMedicationsPeriodParameterStartDateToAndAddThePrescriptionTypeToRepeat(string startDate)
+        {
+            IEnumerable<Tuple<string, Base>> tuples = new Tuple<string, Base>[] {
+                Tuple.Create(FhirConst.GetStructuredRecordParams.kMedicationDatePeriod, (Base)FhirHelper.GetStartDate(startDate)),
+                Tuple.Create(FhirConst.GetStructuredRecordParams.kPrescriptionIssues, (Base)new Code ("repeat"))
+            };
+            _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetStructuredRecordParams.kMedication, tuples);
+        }
+
         [Given(@"I add a duplicate medication part parameter")]
         public void GivenIaddaduplicatemedicationpartparameter()
         {
@@ -353,8 +363,8 @@
             TheMedicationStatementPrescribingAgencyShouldBeValid();			
 			
 			// Added check for Medication Statement System should be set and be a GUID RMB 08-08-2016		
-            TheMedicationStatementIdentifierShouldBeValid();			
-			
+            TheMedicationStatementIdentifierShouldBeValid();
+
             TheMedicationStatementBasedOnShouldNotBeNullAndShouldReferToMedicationRequestWithIntentPlan();
             TheMedicationStatementContextShouldBeValid();
             TheMedicationStatementStatusShouldbeValid();
@@ -1082,6 +1092,20 @@
                 CodeableConcept prescriptionTypeValue = (CodeableConcept)prescriptionType.Value;
 
                 prescriptionTypeValue.Coding.First().System.Equals(FhirConst.CodeSystems.kCcPresriptionType);
+            });
+        }
+
+        [Then(@"the MedicationRequest PrescriptionType code should be ""(.*)""")]
+        public void TheMedicationRequestPrescriptionTypeCodeShouldbe(string code)
+        {
+            MedicationRequests.ForEach(medRequest =>
+            {
+                Extension prescriptionType = medRequest.GetExtension(FhirConst.StructureDefinitionSystems.kMedicationPrescriptionType);
+
+                CodeableConcept prescriptionTypeValue = (CodeableConcept)prescriptionType.Value;
+
+
+                prescriptionTypeValue.Coding.First().Code.Equals(code);
             });
         }
 

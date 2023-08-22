@@ -63,6 +63,8 @@
             // github ref 127 RMB 5/11/2018            public const string kMedicationDatePeriod = "medicationDatePeriod";
             public const string kMedicationDatePeriod = "medicationSearchFromDate";
 
+            public const string kPrescriptionType = "prescriptionType";
+
             public const string kTimePeriod = "timePeriod";
         }
 
