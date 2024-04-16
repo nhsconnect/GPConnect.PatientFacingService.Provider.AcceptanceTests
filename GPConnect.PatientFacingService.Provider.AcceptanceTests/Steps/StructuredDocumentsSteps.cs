@@ -41,6 +41,12 @@ namespace GPConnect.PatientFacingService.Provider.AcceptanceTests.Steps
             _fhirResourceRepository = fhirResourceRepository;
         }
 
+        [Given(@"I set nhsnumber parameter for a Documents Search call to ""(.*)""")]
+        public void SetnhsnumberparameterforaDocumentsSearchcallto(string nhsnumber)
+        {
+            _httpContext.HttpRequestConfiguration.RequestParameters.AddParameter("patientNHSNumber", GlobalContext.PatientNhsNumberMap[nhsnumber]);
+        }
+
         [Given(@"I set the required parameters for a Documents Search call")]
         public void SetRequiredParametersWithTimePeriod()
         {

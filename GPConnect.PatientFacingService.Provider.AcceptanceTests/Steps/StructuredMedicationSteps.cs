@@ -66,6 +66,15 @@
             _httpContext.HttpRequestConfiguration.BodyParameters.Parameter.Add(param);
         }
 
+        [Given(@"I add the  prescriptions filtering Parameter with valueCode ""([^ ""]*)""")]
+        public void GivenIaddtheprescriptionsfilteringParameterwithvalueCode(string PrescriptionType)
+        {
+            IEnumerable<Tuple<string, Base>> tuples = new Tuple<string, Base>[] {
+                Tuple.Create(FhirConst.GetStructuredRecordParams.kFilterPrescriptionType, (Base)new Code (PrescriptionType)),
+            };
+            _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetStructuredRecordParams.kProblems, tuples);
+        }
+
         [Given(@"I add the medications parameter incorrectly")]
         public void GivenIAddTheMedicationsParameterIncorrectly()
         {

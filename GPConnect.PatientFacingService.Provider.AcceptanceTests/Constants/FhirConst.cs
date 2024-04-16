@@ -65,6 +65,8 @@
 
             public const string kPrescriptionType = "prescriptionType";
 
+            public const string kFilterPrescriptionType = "filterPrescriptionType";
+
             public const string kTimePeriod = "timePeriod";
         }
 

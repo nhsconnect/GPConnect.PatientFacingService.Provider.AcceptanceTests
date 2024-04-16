@@ -15,6 +15,7 @@ Scenario: Search for Documents on a Patient with Documents
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call
 	When I make the "DocumentsSearch" request
 		Then the response status code should indicate success
@@ -32,6 +33,7 @@ Scenario: Search for Documents on a Patient with Documents Over 5MB
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient4"
 		And I set the required parameters for a Documents Search call
 	When I make the "DocumentsSearch" request
 		Then the response status code should indicate success
@@ -47,6 +49,7 @@ Scenario: Search for Documents on a Patient with NO Documents
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient3"
 		And I set the required parameters for a Documents Search call
 	When I make the "DocumentsSearch" request
 		Then the response status code should indicate success
@@ -72,6 +75,7 @@ Scenario: Search for Documents using author parameter
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call
 		And I set the author parameters for a Documents Search call to "ORG1"
 	When I make the "DocumentsSearch" request
@@ -88,6 +92,7 @@ Scenario: Search for Documents using author parameter but with invalid identifie
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+			And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call
 		And I set the author parameters with an invalid identifier for a Documents Search call to "ORG1"
 	When I make the "DocumentsSearch" request
@@ -101,6 +106,7 @@ Scenario: Search for Patient Documents created within a last 365 days
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call
 		Then I set the documents search parameters le to today and ge to 365 days ago
 	When I make the "DocumentsSearch" request
@@ -115,6 +121,7 @@ Scenario Outline: Search for Patient Documents created less than a date
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call		
 		Then I set the created search parameter to less than "<Days>" days ago
 	When I make the "DocumentsSearch" request
@@ -132,6 +139,7 @@ Scenario Outline: Search for Patient Documents created greater than a date
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call		
 		Then I set the created search parameter to greater than "<Days>" days ago
 	When I make the "DocumentsSearch" request
@@ -149,6 +157,7 @@ Scenario: Search for Documents with an invalid parameter
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call
 		And I set an invalid parameter for a Documents Search call
 	When I make the "DocumentsSearch" request
@@ -159,25 +168,10 @@ Scenario: Search for Documents on a Patient that doesnt exist
 	Given I configure the default "DocumentsSearch" request
 		And I set the required parameters for a Documents Search call
 		And I change the patient logical id to a non existent id
+		And I set nhsnumber parameter for a Documents Search call to "invalidNHSnumber"
 	When I make the "DocumentsSearch" request
 		Then the response status code should be "404"
 		And the response should be a OperationOutcome resource with error code "PATIENT_NOT_FOUND"
-
-# SU:  skipping this test for now as SU need to confirm with program if Temporary patient test is needed. 04/07/2023
-#Scenario: Search for Documents on a patient which exists on the system as a temporary patient
-#	Given I get the next Patient to register and store it
-#	Given I configure the default "RegisterPatient" request
-#		And I add the Stored Patient as a parameter
-#	When I make the "RegisterPatient" request
-#	Then the response status code should indicate success
-#		And the response should be a Bundle resource of type "searchset"
-#		And the response bundle should contain a single Patient resource
-#	Given I store the Patient
-#	Given I configure the default "DocumentsSearch" request
-#		And I set the required parameters for a Documents Search call
-#	When I make the "DocumentsSearch" request
-#	Then the response status code should be "404"
-#		And the response should be a OperationOutcome resource with error code "PATIENT_NOT_FOUND"
 
 Scenario: Search for Documents on a Patient with deceased date not older than 28 days
 	Given I configure the default "PatientSearch" request
@@ -199,37 +193,19 @@ Scenario: Retrieve a Document for Patient2
 		Then the response status code should indicate success
 		Given I store the Patient
 	Given I configure the default "DocumentsSearch" request
+		And I set nhsnumber parameter for a Documents Search call to "patient2"
 		And I set the required parameters for a Documents Search call
 	When I make the "DocumentsSearch" request
 		Then the response status code should indicate success
 		And the response should be a Bundle resource of type "searchset"
 		And I save a document url for retrieving later
 	Given I configure the default "DocumentsRetrieve" request
+	And I set nhsnumber parameter for a Documents Search call to "patient2"
 		When I make the "DocumentsRetrieve" request
 		Then the response status code should indicate success
 		And I save the binary document from the retrieve
 		And I Check the returned Binary Document is Valid
 		And I Check the returned Binary Document Do Not Include Not In Use Fields
-
-
-#Removed as URL should not be sent back for a doc over 5mb Test
-#Scenario: Retrieve a Document Over 5mb for Patient4 expect Fail
-#	Given I configure the default "DocumentsPatientSearch" request
-#		And I add a Patient Identifier parameter with default System and Value "patient4"
-#		When I make the "DocumentsPatientSearch" request
-#		Then the response status code should indicate success
-#		Given I store the Patient
-#	Given I configure the default "DocumentsSearch" request
-#		And I set the required parameters for a Documents Search call
-#	When I make the "DocumentsSearch" request
-#		Then the response status code should indicate success
-#		And the response should be a Bundle resource of type "searchset"
-#		And I save a document url for retrieving later
-#	Given I configure the default "DocumentsRetrieve" request
-#		When I make the "DocumentsRetrieve" request
-#		Then the response status code should be "404"
-#		And the response should be a OperationOutcome resource with error code "NO_RECORD_FOUND"
-#		And I clear the saved document url
 		
 ##########################################
 #Documents Search/Find Patients Tests

@@ -71,6 +71,40 @@ Scenario Outline: Retrieve the medication structured record section for a patien
 		| patient12 | repeat-dispensing   |
 		| patient16 | delayed-prescribing |
 
+Scenario Outline: Retrieve the medication structured record section for a patient with no problems and set prescription filter type
+	Given I configure the default "GpcGetStructuredRecord" request
+		And I add an NHS Number parameter for "<Patient>"
+		And I set a medications period parameter start date to "2018-02-21" and add the prescription type to repeat
+		And I add the  prescriptions filtering Parameter with valueCode "<PrescriptionType>"
+	When I make the "GpcGetStructuredRecord" request
+	Then the response status code should indicate success
+		And the response should be a Bundle resource of type "collection"
+		And the response meta profile should be for "structured"
+		And the patient resource in the bundle should contain meta data profile and version id
+		And if the response bundle contains a practitioner resource it should contain meta data profile and version id
+		And if the response bundle contains an organization resource it should contain meta data profile and version id
+		And the Bundle should be valid for patient "<Patient>"
+		And check that the bundle does not contain any duplicate resources
+		And the Bundle should contain "1" lists
+		And the Medications should be valid
+		And the Medication Statements should be valid
+		And the Medication Requests should be valid
+		And the MedicationRequest PrescriptionType code should be "<PrescriptionType>"
+		And the List of MedicationStatements should be valid
+		And the Patient Id should be valid
+		And the Practitioner Id should be valid
+		And the Organization Id should be valid
+		And check the response does not contain an operation outcome
+		And I Check There is No Problems Secondary Problems List
+		And I Check No Problem Resources are Included
+
+	Examples:
+		| Patient   | PrescriptionType    |
+		| patient3  | acute               |
+		| patient5  | repeat              |
+		| patient12 | repeat-dispensing   |
+		| patient16 | delayed-prescribing |
+
 Scenario Outline: Retrieve the medication structured record section for a patient with problems linked and including prescription issues
 	Given I configure the default "GpcGetStructuredRecord" request
 		And I add an NHS Number parameter for "<Patient>"
