@@ -258,7 +258,7 @@ paket-files/
 /GPConnect.Provider.AcceptanceTests/*.feature.cs
 
 #ignore app.config file
-*.config
+#*.config
 
 /GPConnect.PatientFacingService.Provider.AcceptanceTests/DemoTest.feature
 /GPConnect.PatientFacingService.Provider.AcceptanceTests/DemoTest.feature.cs
