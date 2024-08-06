@@ -97,7 +97,7 @@ namespace GPConnect.PatientFacingService.Provider.AcceptanceTests.Helpers
         //public static string ConsumerASID => Get<string>("consumerASID");
 
         // Provider Settings
-        public static string Authorization => Get<string>("Authorization");
+       // public static string Authorization => Get<string>("Authorization");
 
         ////public static string JwtAudValue => Get<string>("jwtAudValue");
         //public static string JwtAudValueFoundationsAndAppmts => Get<string>("jwtAudValueFoundationsAndAppmts");

@@ -94,7 +94,6 @@ Scenario: Structured request sent with multiple parameters expected success and 
 		And I add the allergies parameter with resolvedAllergies set to "true"
 		And I add the includeConsultations parameter only
 		And I add the immunizations parameter
-		And I add the uncategorised data parameter
 		And I add the Problems parameter
     When I make the "GpcGetStructuredRecord" request
 	Then the response status code should indicate success
@@ -262,9 +261,7 @@ Scenario: Structured request sent for multiple clinical areas expect success
 		And I add the includeConsultations parameter only
 		And I add the Problems parameter
 		And I add the immunizations parameter
-		And I add the uncategorised data parameter
 		And I add the Investigations parameter
-		And I add the Referrals parameter
     When I make the "GpcGetStructuredRecord" request
 	Then the response status code should indicate success
 		And check that the bundle does not contain any duplicate resources
@@ -272,3 +269,24 @@ Scenario: Structured request sent for multiple clinical areas expect success
 		And check the response does not contain an operation outcome	
 
 
+		#shul1, 05/08/2024 
+	#includeUncategorisedData paramter has been removed. the test should fail
+	Scenario: Verify the include uncategorised data parameter return failure
+	Given I configure the default "GpcGetStructuredRecord" request
+		And I add an NHS Number parameter for "patient3"
+		And I add the uncategorised data parameter
+	When I make the "GpcGetStructuredRecord" request
+	Then the response status code should indicate failure
+		Then the response status code should be "422"
+		And the response should be a OperationOutcome resource with error code "INVALID_PARAMETER" 
+
+	#shul1, 05/08/2024 
+	#includereferrals paramter has been removed. the test should fail
+	Scenario: Verify the include Referrals parameter return failure
+		Given I configure the default "GpcGetStructuredRecord" request
+			And I add an NHS Number parameter for "patient3"
+			And I add the Referrals parameter
+		When I make the "GpcGetStructuredRecord" request
+		Then the response status code should indicate failure
+			Then the response status code should be "422"
+			And the response should be a OperationOutcome resource with error code "INVALID_PARAMETER" 

@@ -189,11 +189,15 @@
     <Compile Include="Cache\ValueSet\ValueSetExpander\CustomValueSetExpander.cs" />
     <Compile Include="Data\LocationLogicalIdentifierMap.cs" />
     <Compile Include="Data\OrganizationSiteCodeMap.cs" />
+    <Compile Include="Data\PatientAccessTokenMap.cs" />
     <Compile Include="Data\RegisterPatient.cs" />
     <Compile Include="Data\PractitionerCodeMap.cs" />
     <Compile Include="Data\ODSCodeMap.cs" />
     <Compile Include="Data\NHSNoMap.cs" />
     <Compile Include="Data\PDS.cs" />
+    <Compile Include="Importers\PatientAccessTokenMap.cs" />
+    <Compile Include="Importers\PatientAccessTokenMapConverter.cs" />
+    <Compile Include="Importers\PatientAccessTokenMapImporter.cs" />
     <Compile Include="Steps\StructuredCommonSteps.cs" />
     <Compile Include="Steps\StructuredDiarySteps.cs" />
     <Compile Include="StructuredDocuments.feature.cs" />
@@ -287,8 +291,6 @@
     <Compile Include="StructuredMedications.feature.cs" />
     <Compile Include="StructuredMultipleRequests.feature.cs" />
     <Compile Include="StructuredProblems.feature.cs" />
-    <Compile Include="StructuredReferrals.feature.cs" />
-    <Compile Include="StructuredUncategorised.feature.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="StructuredDocuments.feature" />
@@ -315,8 +317,6 @@
     </None>
     <None Include="StructuredMultipleRequests.feature" />
     <None Include="StructuredProblems.feature" />
-    <None Include="StructuredReferrals.feature" />
-    <None Include="StructuredUncategorised.feature" />
     <None Include="validation.xml.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

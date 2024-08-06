@@ -29,6 +29,8 @@
         public void SetTheParameterNameTo(string parameterName, string invalidParameterName)
         {
             _httpContext.HttpRequestConfiguration.BodyParameters.GetSingle(parameterName).Name = invalidParameterName;
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken("patient2");
         }
 
         #region NHS Number Parameter
@@ -38,18 +40,27 @@
         {
             var nhsNumber = GlobalContext.PatientNhsNumberMap[patient];
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetCareRecordParams.kPatientNHSNumber, NhsNumberHelper.GetDefaultIdentifier(nhsNumber));
+
+           //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I add an NHS Number parameter for an invalid NHS Number")]
         public void AddAnNhsNumberParameterForInvalidNhsNumber()
         {
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetCareRecordParams.kPatientNHSNumber, NhsNumberHelper.GetDefaultIdentifierWithInvalidNhsNumber());
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken("invalidNHSnumber");
         }
 
         [Given(@"I add an NHS Number parameter with an empty NHS Number")]
         public void AddAnNhsNumberParameterWithAnEmptyNhsNumber()
         {
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetCareRecordParams.kPatientNHSNumber, NhsNumberHelper.GetIdentifierWithEmptyNhsNumber());
+
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken("invalidNHSnumber");
         }
 
         [Given(@"I add an NHS Number parameter for ""(.*)"" with an invalid Identifier System")]
@@ -57,6 +68,9 @@
         {
             var nhsNumber = GlobalContext.PatientNhsNumberMap[patient];
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetCareRecordParams.kPatientNHSNumber, NhsNumberHelper.GetDefaultIdentifierWithInvalidSystem(nhsNumber));
+
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
         }
 
         [Given(@"I add an NHS Number parameter for ""(.*)"" with an empty Identifier System")]
@@ -64,14 +78,20 @@
         {
             var nhsNumber = GlobalContext.PatientNhsNumberMap[patient];
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetCareRecordParams.kPatientNHSNumber, NhsNumberHelper.GetIdentifierWithEmptySystem(nhsNumber));
+
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
         }
 
-        //SJD 03/10/2019 changed method so now creates an invalid parameter
+        //invalid parameter
         [Given(@"I add an NHS Number parameter for ""(.*)"" using an invalid parameter type")]
         public void AddANhsNumberParameterForUsingAnInvalidParameterType(string patient)
         {
             var nhsNumber = GlobalContext.PatientNhsNumberMap[patient];
             _httpContext.HttpRequestConfiguration.BodyParameters.Add("invalidNHSNumberParam", NhsNumberHelper.GetDefaultIdentifier(nhsNumber));
+
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
         }
 
         #endregion NHS Number Parameter

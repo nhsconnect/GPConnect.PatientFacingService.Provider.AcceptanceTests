@@ -82,6 +82,18 @@
             Log.WriteLine("NHSNoMap CSV = '{0}'", nhsNoMapCSV);
             GlobalContext.PatientNhsNumberMap = NHSNoMapImporter.LoadCsv(nhsNoMapCSV);
         }
+        [BeforeTestRun(Order = 1)]
+        public static void LoadPatientAccessTokenMapData()
+        {
+            if (!Directory.Exists(AppSettingsHelper.DataDirectory))
+            {
+                Assert.Fail("Data Directory Not Found.");
+            }
+
+            var patientAcessTokenMapCSV = Path.Combine(AppSettingsHelper.DataDirectory, @"PatientAccessTokenMap.csv");
+            Log.WriteLine("PatientAccessTokenMap CSV = '{0}'", patientAcessTokenMapCSV);
+            GlobalContext.PatientAccessTokenMap = PatientAccessTokenMapImporter.LoadCsv(patientAcessTokenMapCSV);
+        }
 
         [BeforeTestRun(Order = 1)]
         public static void LoadRegisterPatientData()
@@ -260,7 +272,7 @@
 
                     //Add information about the test run
                     file.WriteLine("TestRunDateTime : " + DateTime.UtcNow.ToLocalTime().ToString());
-                    file.WriteLine("Authorization : " + AppSettingsHelper.Authorization);
+                   // file.WriteLine("Authorization : " + AppSettingsHelper.Authorization);
                    // file.WriteLine("providerASID : " + AppSettingsHelper.ProviderASID);
 
                     //file.WriteLine("GPConnectSpecVersionFoundationsAndAppmts : " + AppSettingsHelper.GPConnectSpecVersionFoundationsAndAppmts);

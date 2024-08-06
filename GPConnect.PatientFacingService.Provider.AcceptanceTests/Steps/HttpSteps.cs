@@ -21,8 +21,9 @@
         private readonly SecuritySteps _securitySteps;
         private readonly SecurityContext _securityContext;
         private readonly IFhirResourceRepository _fhirResourceRepository;
+        private readonly HttpRequestConfiguration _httpRequestConfiguration;
 
-        public HttpSteps(HttpContext httpContext, JwtHelper jwtHelper, SecuritySteps securitySteps, SecurityContext securityContext, IFhirResourceRepository fhirResourceRepository)
+        public HttpSteps(HttpContext httpContext, JwtHelper jwtHelper, SecuritySteps securitySteps, SecurityContext securityContext, IFhirResourceRepository fhirResourceRepository, HttpRequestConfiguration httpRequestConfiguration)
         {
             Log.WriteLine("HttpSteps() Constructor");
             _httpContext = httpContext;
@@ -30,6 +31,7 @@
             _securitySteps = securitySteps;
             _securityContext = securityContext;
             _fhirResourceRepository = fhirResourceRepository;
+            _httpRequestConfiguration = httpRequestConfiguration;
         }
 
         public HttpRequestConfiguration GetHttpRequestConfiguration(GpConnectInteraction interaction, HttpRequestConfiguration httpRequestConfiguration = null)
@@ -72,13 +74,36 @@
             return httpRequestConfiguration;
         }
 
-        [Given(@"I configure the default ""(.*)"" request")]
-        public void ConfigureRequest(GpConnectInteraction interaction)
+        [Given(@"I configure the default ""(.*)"" request and ""(.*)"" patient")]
+        public void ConfigureRequest(GpConnectInteraction interaction,string patient )
         {
+            _httpRequestConfiguration.SetAuthorisationToken(patient);
+            
             _httpContext.SetDefaults();
 
             _httpContext.HttpRequestConfiguration = GetHttpRequestConfiguration(interaction, _httpContext.HttpRequestConfiguration);
   
+            jwtHelper = GetJwtHelper(interaction, jwtHelper);
+
+            _securitySteps.ConfigureServerCertificatesAndSsl();
+        }
+
+        [Given(@"I configure the authorisation request for ""(.*)""")]
+        public void ConfigureAuthorisationRequest(string patient)
+        {
+
+            _httpRequestConfiguration.SetAuthorisationToken(patient);
+        }
+
+
+        [Given(@"I configure the default ""(.*)"" request")]
+        public void ConfigureRequest(GpConnectInteraction interaction)
+        {
+
+            _httpContext.SetDefaults();
+
+            _httpContext.HttpRequestConfiguration = GetHttpRequestConfiguration(interaction, _httpContext.HttpRequestConfiguration);
+
             jwtHelper = GetJwtHelper(interaction, jwtHelper);
 
             _securitySteps.ConfigureServerCertificatesAndSsl();

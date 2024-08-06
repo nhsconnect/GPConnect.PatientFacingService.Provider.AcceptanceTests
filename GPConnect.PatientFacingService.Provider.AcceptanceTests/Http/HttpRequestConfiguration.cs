@@ -252,7 +252,7 @@
             UseSpineProxy = AppSettingsHelper.UseSpineProxy;
             SpineProxyUrl = AppSettingsHelper.SpineProxyUrl;
             SpineProxyPort = AppSettingsHelper.SpineProxyPort;
-            Authorization = AppSettingsHelper.Authorization;
+           // Authorization = AppSettingsHelper.Authorization;
             //ConsumerASID = AppSettingsHelper.ConsumerASID;
         }
 
@@ -278,18 +278,25 @@
 
         public void SetDefaultHeaders()
         {
-            //PG 4/3/2021 - Generate new SSP-TraceID and Store in GlobalContext To Check that Bundles returned This in id element
             var xrequestID = Guid.NewGuid().ToString();
             GlobalContext.X_Request_ID = xrequestID;
             GlobalContext.X_Correlation_ID= Guid.NewGuid().ToString();
 
-            RequestHeaders.ReplaceHeader(HttpConst.Headers.kAuthorization, Authorization);
+            RequestHeaders.ReplaceHeader(HttpConst.Headers.kAuthorization, GlobalContext.PatientAccessToken);
             RequestHeaders.ReplaceHeader(HttpConst.Headers.kXCorrelationID, GlobalContext.X_Correlation_ID);
             RequestHeaders.ReplaceHeader(HttpConst.Headers.kXRequestID, GlobalContext.X_Request_ID);
             //RequestHeaders.ReplaceHeader(HttpConst.Headers.kSspTo, ProviderASID);
 
             RequestHeaders.ReplaceHeader(HttpConst.Headers.kAccept, ContentType.Application.FhirJson);
             RequestContentType = ContentType.Application.FhirJson;
+        }
+        public void SetPatientAccessTokenHeaders()
+        {         
+            RequestHeaders.ReplaceHeader(HttpConst.Headers.kAuthorization, GlobalContext.PatientAccessToken);
+        }
+        public void SetAuthorisationToken(string patient)
+        {
+            GlobalContext.PatientAccessToken = GlobalContext.PatientAccessTokenMap[patient.ToLower()];
         }
     }
 }

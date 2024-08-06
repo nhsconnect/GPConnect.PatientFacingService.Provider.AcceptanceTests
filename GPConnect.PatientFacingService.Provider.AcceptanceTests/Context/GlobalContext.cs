@@ -25,6 +25,10 @@
         public static List<RegisterPatient> RegisterPatients { get; set; }
         public static Dictionary<string, string> PractionerCodeMap { get; set; }
         public static Dictionary<string, string> PatientNhsNumberMap { get; set; }
+
+        public static Dictionary<string, string> PatientAccessTokenMap { get; set; }
+
+        public static string PatientAccessToken { get; set; }
         public static Dictionary<string, string> OdsCodeMap { get; set; }
 
         public static Guid TestRunId { get; set; }
