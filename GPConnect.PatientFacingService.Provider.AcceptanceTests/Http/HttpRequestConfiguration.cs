@@ -296,7 +296,7 @@
         }
         public void SetAuthorisationToken(string patient)
         {
-            GlobalContext.PatientAccessToken = GlobalContext.PatientAccessTokenMap[patient.ToLower()];
+            GlobalContext.PatientAccessToken = GlobalContext.PatientAccessTokenMap[patient];
         }
     }
 }

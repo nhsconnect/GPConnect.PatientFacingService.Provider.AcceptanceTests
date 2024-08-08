@@ -52,6 +52,7 @@
             _httpContext.HttpRequestConfiguration.BodyParameters.Add(FhirConst.GetCareRecordParams.kPatientNHSNumber, NhsNumberHelper.GetDefaultIdentifierWithInvalidNhsNumber());
             //set the authorisation token
             _httpContext.HttpRequestConfiguration.SetAuthorisationToken("invalidNHSnumber");
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I add an NHS Number parameter with an empty NHS Number")]
@@ -61,6 +62,7 @@
 
             //set the authorisation token
             _httpContext.HttpRequestConfiguration.SetAuthorisationToken("invalidNHSnumber");
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I add an NHS Number parameter for ""(.*)"" with an invalid Identifier System")]
@@ -71,6 +73,7 @@
 
             //set the authorisation token
             _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I add an NHS Number parameter for ""(.*)"" with an empty Identifier System")]
@@ -81,6 +84,7 @@
 
             //set the authorisation token
             _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         //invalid parameter
@@ -92,6 +96,7 @@
 
             //set the authorisation token
             _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patient);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         #endregion NHS Number Parameter

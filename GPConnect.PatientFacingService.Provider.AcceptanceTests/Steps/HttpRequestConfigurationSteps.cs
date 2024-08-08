@@ -248,6 +248,9 @@ namespace GPConnect.PatientFacingService.Provider.AcceptanceTests.Steps
             {
                 _httpContext.HttpRequestConfiguration.RequestUrl = _httpContext.HttpRequestConfiguration.RequestUrl.Substring(0, lastIndex + 1) + _httpContext.HttpRequestConfiguration.GetRequestId;
             }
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patientID);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
         [Given(@"I set the Find Patient ID in the request to ""([^""]*)"" and ""([^""]*)""")]
         public void SetTheFindPatientIDInTheRequestTo(string patientID1, string patiendID2)
@@ -272,6 +275,9 @@ namespace GPConnect.PatientFacingService.Provider.AcceptanceTests.Steps
             {
                 _httpContext.HttpRequestConfiguration.RequestUrl = _httpContext.HttpRequestConfiguration.RequestUrl.Substring(0, lastIndex + 1) + _httpContext.HttpRequestConfiguration.GetRequestId;
             }
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(patientID1);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I set the Read Operation logical identifier used in the request to ""([^""]*)""")]

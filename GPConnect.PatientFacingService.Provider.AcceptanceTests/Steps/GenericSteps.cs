@@ -195,18 +195,18 @@
                 }
 
                 //Output JWT trace
-                if (AppSettingsHelper.TraceOutputJWT)
-                {
-                    //Dump JWT Token to output file
-                    try
-                    {
-                        _httpContext.SaveJWTToDisk(Path.Combine(scenarioDirectory, "JWTToken.txt"));
-                    }
-                    catch (Exception Ex)
-                    {
-                        Log.WriteLine("Exception writing JWT Header to Output File");
-                    }
-                }
+                //if (AppSettingsHelper.TraceOutputJWT)
+                //{
+                //    //Dump JWT Token to output file
+                //    try
+                //    {
+                //        _httpContext.SaveJWTToDisk(Path.Combine(scenarioDirectory, "JWTToken.txt"));
+                //    }
+                //    catch (Exception Ex)
+                //    {
+                //        Log.WriteLine("Exception writing JWT Header to Output File");
+                //    }
+                //}
 
                 //output Pretty Printed Request body
                 if (AppSettingsHelper.TraceOutputJSONRequestBody)

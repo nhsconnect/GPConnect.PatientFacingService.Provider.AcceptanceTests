@@ -130,7 +130,7 @@
             
             _httpContext.HttpRequestConfiguration = GetRequestBody(interaction, _httpContext.HttpRequestConfiguration);
 
-           // _httpContext.HttpRequestConfiguration.RequestHeaders.ReplaceHeader(HttpConst.Headers.kAuthorization, _httpContext.HttpRequestConfiguration.Authorization);
+          //  _httpContext.HttpRequestConfiguration.RequestHeaders.ReplaceHeader(HttpConst.Headers.kAuthorization, _httpContext.HttpRequestConfiguration.Authorization);
            // _httpContext.HttpRequestConfiguration.RequestHeaders.ReplaceHeader(HttpConst.Headers.kXRequestID, _httpContext.HttpRequestConfiguration.X_Request_ID);
 
             //_httpContext.HttpRequestConfiguration.RequestHeaders.AddHeader("x-request-id", "60E0B220-8136-4CA5-AE46-1D97EF59D068");
