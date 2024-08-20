@@ -424,20 +424,26 @@
         [Given(@"I add a Patient Identifier parameter with System ""([^""]*)"" and Value ""([^""]*)""")]
         public void AddAPatientIdentifierParameterWithSystemAndValue(string system, string value)
         {
-           // _httpContext.HttpRequestConfiguration.RequestParameters.AddParameter("identifier", system + '|' + GlobalContext.PatientNhsNumberMap[value]);
-            _httpContext.HttpRequestConfiguration.RequestParameters.AddParameter("", GlobalContext.PatientNhsNumberMap[value]);
+            _httpContext.HttpRequestConfiguration.RequestParameters.AddParameter("identifier", system + '|' + GlobalContext.PatientNhsNumberMap[value]);
+           // _httpContext.HttpRequestConfiguration.RequestParameters.AddParameter("", GlobalContext.PatientNhsNumberMap[value]);
         }
 
         [Given(@"I add a Patient Identifier parameter with default System and Value ""([^""]*)""")]
         public void AddAPatientIdentifierParameterWithDefaultSystemAndValue(string value)
         {
             AddAPatientIdentifierParameterWithSystemAndValue(FhirConst.IdentifierSystems.kNHSNumber, value);
+            ////set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(value);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I add a Patient Identifier parameter with identifier name ""([^""]*)"" default System and Value ""([^""]*)""")]
         public void AddAPatientIdentifierParameterWithIdentifierNameDefaultSystemAndValue(string identifierName, string value)
         {
             _httpContext.HttpRequestConfiguration.RequestParameters.AddParameter(identifierName, FhirConst.IdentifierSystems.kNHSNumber + '|' + GlobalContext.PatientNhsNumberMap[value]);
+            //set the authorisation token
+            _httpContext.HttpRequestConfiguration.SetAuthorisationToken(value);
+            _httpContext.HttpRequestConfiguration.SetPatientAccessTokenHeaders();
         }
 
         [Given(@"I add a Patient Identifier parameter with default System and NHS number ""([^""]*)""")]
