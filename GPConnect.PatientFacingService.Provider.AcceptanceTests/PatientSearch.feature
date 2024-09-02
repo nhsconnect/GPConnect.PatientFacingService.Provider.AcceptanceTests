@@ -11,21 +11,6 @@ Scenario: Returned patients should contain a logical identifier
 		And the Patient Id should be valid
 		And the patient resource in the bundle should contain meta data profile and version id
 
-		# SU:  skipping these tests for now as SU need to confirm with program if identifier parameter tests are needed. 04/07/2023
-#Scenario: Provider should return an error when no system is supplied in the identifier parameter
-#	Given I configure the default "PatientSearch" request
-#		And I add a Patient Identifier parameter with no System and Value "patient1"
-#	When I make the "PatientSearch" request
-#	Then the response status code should be "422"
-#		And the response should be a OperationOutcome resource with error code "INVALID_PARAMETER"
-#
-#Scenario: Provider should return an error when a blank system is supplied in the identifier parameter
-#	Given I configure the default "PatientSearch" request
-#		And I add a Patient Identifier parameter with System "" and Value "patient2"
-#	When I make the "PatientSearch" request
-#	Then the response status code should be "422"
-#		And the response should be a OperationOutcome resource with error code "INVALID_PARAMETER"
-
 Scenario: When a patient is not found on the provider system an empty bundle should be returned
 	Given I configure the default "PatientSearch" request
 		And I set the Find Patient ID in the request to "patientNotInSystem"
@@ -33,21 +18,6 @@ Scenario: When a patient is not found on the provider system an empty bundle sho
 	Then the response status code should indicate success
 		And the response should be a Bundle resource of type "searchset"
 		And the response bundle should contain "0" entries
-
-# SU:  skipping these tests for now as SU need to confirm with program if identifier parameter tests are needed. 04/07/2023
-#Scenario: Patient search should fail if no identifier parameter is include
-#	Given I configure the default "PatientSearch" request
-#	When I make the "PatientSearch" request
-#	Then the response status code should be "400"
-#		And the response should be a OperationOutcome resource with error code "BAD_REQUEST"
-
-# SU:  skipping these tests for now as SU need to confirm with program if identifier parameter tests are needed. 04/07/2023
-#Scenario: The identifier parameter should be rejected if the case is incorrect
-#	Given I configure the default "PatientSearch" request
-#		And I add a Patient Identifier parameter with identifier name "Identifier" default System and Value "patient2"
-#	When I make the "PatientSearch" request
-#	Then the response status code should be "400"
-#		And the response should be a OperationOutcome resource with error code "BAD_REQUEST"
 
 Scenario: The response should be an error if nhs nuber is not provided
 	Given I configure the default "PatientSearch" request
@@ -68,7 +38,6 @@ Scenario: The response should be an error if invalid nhs nuber is sent
 Scenario Outline: The patient search endpoint should accept the accept header
 	Given I configure the default "PatientSearch" request
 		And I set the Accept header to "<AcceptHeader>"
-		And I set the Find Patient ID in the request to "patient2"
 	When I make the "PatientSearch" request
 	Then the response status code should indicate success
 		And the response body should be FHIR <ResultFormat>
@@ -81,26 +50,28 @@ Scenario Outline: The patient search endpoint should accept the accept header
 		| application/fhir+xml  | XML          |
 		| application/fhir+json | JSON         |
 
-Scenario Outline: The patient search endpoint should accept the format parameter
-	 Given I configure the default "PatientSearch" request
-		And I add the parameter "_format" with the value "<FormatParam>"
-		And I add a Patient Identifier parameter with default System and Value "patient2"
-	When I make the "PatientSearch" request
-	Then the response status code should indicate success
-		And the response body should be FHIR <ResultFormat>
-		And the response should be a Bundle resource of type "searchset"
-		And the response bundle should contain "1" entries
-		And the Patient Id should be valid
-		And the Patient Identifiers should be valid for Patient "patient2"
-	Examples:
-		| FormatParam           | ResultFormat |
-		| application/fhir+xml  | XML          |
-		| application/fhir+json | JSON         |
+#Scenario Outline: The patient search endpoint should accept the format parameter
+#	 Given I configure the default "PatientSearch" request
+#		And I add the parameter "_format" with the value "<FormatParam>"
+#		And I set the Find Patient ID in the request to "patient2"
+#	When I make the "PatientSearch" request
+#	Then the response status code should indicate success
+#		And the response body should be FHIR <ResultFormat>
+#		And the response should be a Bundle resource of type "searchset"
+#		And the response bundle should contain "1" entries
+#		And the Patient Id should be valid
+#		And the Patient Identifiers should be valid for Patient "patient2"
+#	Examples:
+#		| FormatParam           | ResultFormat |
+#		| application/fhir+xml  | XML          |
+#		| application/fhir+json | JSON         |
 
-Scenario Outline: The patient search endpoint should accept the format parameter after the identifier parameter
+#Scenario Outline: The patient search endpoint should accept the format parameter after the identifier parameter
+Scenario Outline: The patient search endpoint should accept the format parameter after the patient id
 	 Given I configure the default "PatientSearch" request
 		And I set the Accept header to "<AcceptHeader>"
-		And I add a Patient Identifier parameter with default System and Value "patient2"
+		And I set the Find Patient ID in the request to "patient2"
+	#	And I add a Patient Identifier parameter with default System and Value "patient2"
 		And I add the parameter "_format" with the value "<FormatParam>"
 	When I make the "PatientSearch" request
 	Then the response status code should indicate success
@@ -116,24 +87,26 @@ Scenario Outline: The patient search endpoint should accept the format parameter
 		| application/fhir+json | application/fhir+json | JSON         |
 		| application/fhir+xml  | application/fhir+json | JSON         |
 
-Scenario Outline: The patient search endpoint should accept the format parameter before the identifier parameter
-	Given I configure the default "PatientSearch" request
-		And I set the Accept header to "<AcceptHeader>"
-		And I add the parameter "_format" with the value "<FormatParam>"
-		And I add a Patient Identifier parameter with default System and Value "patient2"
-	When I make the "PatientSearch" request
-	Then the response status code should indicate success
-		And the response body should be FHIR <ResultFormat>
-		And the response should be a Bundle resource of type "searchset"
-		And the response bundle should contain "1" entries
-		And the Patient Id should be valid
-		And the Patient Identifiers should be valid for Patient "patient2"
-	Examples:
-		| AcceptHeader          | FormatParam           | ResultFormat |
-		| application/fhir+xml  | application/fhir+xml  | XML          |
-		| application/fhir+json | application/fhir+xml  | XML          |
-		| application/fhir+json | application/fhir+json | JSON         |
-		| application/fhir+xml  | application/fhir+json | JSON         |
+#Scenario Outline: The patient search endpoint should accept the format parameter before the identifier parameter
+#Scenario Outline: The patient search endpoint should accept the format parameter before the patient id
+#	Given I configure the default "PatientSearch" request
+#		And I set the Accept header to "<AcceptHeader>"
+#		And I add the parameter "_format" with the value "<FormatParam>"
+#		And I set the Find Patient ID in the request to "patient2"
+#	#	And I add a Patient Identifier parameter with default System and Value "patient2"
+#	When I make the "PatientSearch" request
+#	Then the response status code should indicate success
+#		And the response body should be FHIR <ResultFormat>
+#		And the response should be a Bundle resource of type "searchset"
+#		And the response bundle should contain "1" entries
+#		And the Patient Id should be valid
+#		And the Patient Identifiers should be valid for Patient "patient2"
+#	Examples:
+#		| AcceptHeader          | FormatParam           | ResultFormat |
+#		| application/fhir+xml  | application/fhir+xml  | XML          |
+#		| application/fhir+json | application/fhir+xml  | XML          |
+#		| application/fhir+json | application/fhir+json | JSON         |
+#		| application/fhir+xml  | application/fhir+json | JSON         |
 
 Scenario Outline: Patient resource should contain NHS number identifier returned as XML
 	Given I configure the default "PatientSearch" request
@@ -168,7 +141,6 @@ Scenario Outline: Patient search response conforms with the GPConnect specificat
 		And the Patient Deceased should be valid
 		And the Patient Telecom should be valid
 		# spoke Ed and he mentined we might not need these tests.
-		# SU:  skipping these check for now as SU need to confirm with program if ManagingOrganization GeneralPractitioner and GeneralPractitioner should be resolveable. 04/07/2023
 		#And the Patient ManagingOrganization Organization should be valid and resolvable
 		#And the Patient GeneralPractitioner Practitioner should be valid and resolvable
 		And the Patient should exclude disallowed fields
@@ -206,16 +178,6 @@ Scenario Outline: System should return error if multiple patient ID are sent
 		| patient1   | patient2   |
 		| patient2   | patient1   |
 
-# SU:  skipping these tests for now as SU need to confirm with program as these parameters may not supported. 04/07/2023
-#Scenario: Patient Search include count and sort parameters
-#	Given I configure the default "PatientSearch" request
-#		And I set the Find Patient ID in the request to "patient2"
-#		And I add the parameter "_count" with the value "1"
-#		And I add the parameter "_sort" with the value "status"
-#	When I make the "PatientSearch" request
-#	Then the response status code should indicate success
-#		And the response should be a Bundle resource of type "searchset"
-#		And the response bundle should contain "1" entries
 
 Scenario: Patient search valid response check caching headers exist
 	Given I configure the default "PatientSearch" request
@@ -226,15 +188,6 @@ Scenario: Patient search valid response check caching headers exist
 		And the response bundle should contain "1" entries
 		And the Patient Id should be valid
 		And the required cacheing headers should be present in the response
-
-# SU:  skipping these tests for now as SU need to confirm with program if identifier parameter tests are needed. 04/07/2023
-#Scenario:Patient search invalid response check caching headers exist
-#Given I configure the default "PatientSearch" request
-#		And I add a Patient Identifier parameter with identifier name "Identifier" default System and Value "patient2"
-#	When I make the "PatientSearch" request
-#	Then the response status code should be "400"
-#		And the response should be a OperationOutcome resource with error code "BAD_REQUEST"
-#		And the required cacheing headers should be present in the response
 
 Scenario: Returned patients should contain a preferred branch
 	Given I configure the default "PatientSearch" request
